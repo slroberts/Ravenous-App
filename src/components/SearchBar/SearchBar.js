@@ -13,29 +13,16 @@ class SearchBar extends React.Component {
   //(Best Match, Highest Rated, Most Reviewed).
   //This is to help future proof against potential changes to the Yelp API.
   constructor(props) {
-
       super(props);
       this.state = {
-        term : '',
-        location : '',
-        sortBy : 'best_match'
+        term: '',
+        location: '',
+        sortBy: 'best_match'
       };
 
       this.handleTermChange = this.handleTermChange.bind(this);
       this.handleLocationChange = this.handleLocationChange.bind(this);
       this.handleSearch = this.handleSearch.bind(this);
-  }
-
-  renderSortByOptions() {
-
-    return Object.keys(sortByOptions).map(sortByOption => {
-      let sortByOptionValue = sortByOptions[sortByOption];
-      return (
-        <li className={this.getSortByClass(sortByOptionValue)} onClick={this.handleSortByChange.bind(this, sortByOptionValue)} key={sortByOptionValue}>
-          {sortByOption}
-          </li>
-      );
-    });
   }
 
   getSortByClass(sortByOption) {
@@ -48,26 +35,39 @@ class SearchBar extends React.Component {
 
   handleSortByChange(sortByOption) {
     this.setState(
-      { sortBy : sortByOption }
+      { sortBy: sortByOption }
     );
   }
 
-  handleTermChange(event) {
+  handleTermChange(e) {
     this.setState(
-      { term: event.target.value }
+      { term: e.target.value }
     );
   }
 
-  handleLocationChange(event) {
+  handleLocationChange(e) {
     this.setState(
-      { location: event.target.value }
+      { location: e.target.value }
     );
   }
 
-  handleSearch(event) {
+  handleSearch(e) {
     this.props.searchYelp(this.state.term, this.state.location, this.state.sortBy);
-    event.preventDefault();
+    e.preventDefault();
   }
+
+  renderSortByOptions() {
+
+    return Object.keys(sortByOptions).map(sortByOption => {
+      let sortByOptionValue = sortByOptions[sortByOption];
+      return (
+        <li
+      key={sortByOptionValue}
+      className={this.getSortByClass(sortByOptionValue)}
+      onClick={this.handleSortByChange.bind(this, sortByOptionValue)}>{sortByOption}</li>
+      );
+    });
+  };
 
   render(){
     return (
@@ -82,11 +82,11 @@ class SearchBar extends React.Component {
           <input onChange={this.handleLocationChange} placeholder="Where?" />
         </div>
         <div className="SearchBar-submit" onClick={this.handleSearch}>
-          <a>Let&#39;s Go</a>
+          <a>Let's Go</a>
         </div>
       </div>
     );
   }
-};
+}
 
 export default SearchBar;
